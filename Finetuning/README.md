@@ -4,34 +4,16 @@ This repository provides a full pipeline for **Supervised Fine-Tuning** of the *
 
 ---
 
-## 🎯 What is This Repository For?
+## What is This Repository For?
 
 This repository is designed for researchers and engineers working on **document foundation models**, especially in the subdomain of **table understanding**. The goal is to train large language models to answer natural language questions based on **tabular data**.
 
 We use a structured input format (HTML, Markdown, or plain text), and fine-tune a LLaMA-3 model using supervised data. Evaluation includes both strict and relaxed accuracy metrics, and predictions are stored in JSON format for further analysis.
 
----
-###Directory Structure
-```bash
-TableVQA/
-├── src/
-│   └── model/
-│       ├── llama8b.py                    # Main training script
-│       ├── llama8baccuracy.py            # Exact Match + Levenshtein accuracy evaluation
-│       ├── llama8bfintabnetaccuracy.py   # FinTabNet-style relaxed accuracy
-│       ├── llama8bplaintext.py           # Plain-text based inference
-│       ├── llama8bmarkdown.py            # Markdown-table based inference
-│       ├── llama8bhtml.py                # HTML-table based inference
-│       └── Dockerfile                    # Docker build file
-├── requirements.txt                      # Python dependencies
-├── predictions_epoch4.json               # Sample prediction output
-├── predictions_fintabnet_epoch4.json     # FinTabNet metric predictions
-└── README.md                             # Project README
----
 
-## 📦 Installation
+### 📦 Installation
 
-### ✅ Manual Setup
+###  Manual Setup
 
 1. Clone the repository:
    ```bash
@@ -41,7 +23,7 @@ TableVQA/
 2.Install dependencies:
   ```bash
   pip install -r requirements.txt
-###🐳 Docker Setup
+##🐳 Docker Setup
 1.Build Docker image:
 ```bash
 docker build -t llama8b -f src/model/Dockerfile .
@@ -52,9 +34,9 @@ docker run --rm --gpus '"device=0"' -it llama8b bash
 ```bash
 huggingface-cli login
 ---
-###Training
+##Training
 Train the model on HTML-structured questions and answers.
-###Evaluation Metrics
+##Evaluation Metrics
 You can run evaluation using various scripts provided:
 ```bash
 # Standard metrics
@@ -68,14 +50,14 @@ python src/model/llama8bplaintextaccuracy.py
 python src/model/llama8bmarkdownaccuracy.py
 python src/model/llama8bhtmlaccuracy.py
 
-###Metric Details
+##Metric Details
 | Metric                            | Description                                                                                                                                  |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Exact Match (EM)**              | Checks for exact string equality between prediction and ground truth (case- and whitespace-insensitive).                                     |
 | **Levenshtein Accuracy**          | Measures how many edits are needed to convert predicted answer to ground truth. Normalized as:<br> `1 - (Levenshtein Distance / Max Length)` |
 | **Relieved Accuracy (FinTabNet)** | Allows for formatting and minor textual variations but penalizes incorrect content. Useful for evaluating table-based answers.               |
 ---
-###🧾 Prediction Output Format
+##🧾 Prediction Output Format
 After evaluation, predictions are saved as JSON files like predictions.json.
 Each entry looks like:
 ```bash
