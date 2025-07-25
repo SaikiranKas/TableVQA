@@ -10,7 +10,25 @@ This repository is designed for researchers and engineers working on **document 
 
 We use a structured input format (HTML, Markdown, or plain text), and fine-tune a LLaMA-3 model using supervised data. Evaluation includes both strict and relaxed accuracy metrics, and predictions are stored in JSON format for further analysis.
 
+## 📁 Directory Structure
 
+```
+.
+├── llama8b.py                         # Main training for otsl script
+├── llama8baccuracy.py                # Standard evaluation on otsl (Exact Match, Levenshtein)
+├── llama8bfintabnetaccuracy.py       # FinTabNet-style relaxed accuracy
+├── llama8bhtml.py                    # HTML-format inference
+├── llama8bhtmlaccuracy.py            # Evaluation on HTML output
+├── llama8bmarkdown.py                # Markdown-format inference
+├── llama8bmarkdownaccuracy.py       # Evaluation on Markdown output
+├── llama8bplaintext.py              # Plain text-format inference
+├── llama8bplaintextaccuracy.py      # Evaluation on plain text output
+├── relieved_accuracy.py              # FinTabNet-style accuracy logic
+├── predictions_epoch4.json          # Sample predictions
+├── requirements.txt                  # Python dependencies
+├── README.md                         # This file
+
+```
 ### 📦 Installation
 
 ###  Manual Setup
@@ -19,24 +37,29 @@ We use a structured input format (HTML, Markdown, or plain text), and fine-tune 
    ```bash
    git clone https://github.com/SaikiranKas/TableVQA.git
    cd TableVQA
+   ```
 
 2.Install dependencies:
-  ```bash
-  pip install -r requirements.txt
-##🐳 Docker Setup
+      ```bash
+      pip install -r requirements.txt
+      ```
+### 🐳 Docker Setup
 1.Build Docker image:
-```bash
-docker build -t llama8b -f src/model/Dockerfile .
+   ```bash
+   docker build -t llama8b -f src/model/Dockerfile .
+   ```
 2.Run Docker container:
-```bash
-docker run --rm --gpus '"device=0"' -it llama8b bash
+   ```bash
+   docker run --rm --gpus '"device=0"' -it llama8b bash
+   ```
 3.Log in to HuggingFace to download Meta's LLaMA model:
-```bash
-huggingface-cli login
+   ```bash
+   huggingface-cli login
+   ```
 ---
-##Training
-Train the model on HTML-structured questions and answers.
-##Evaluation Metrics
+### Training
+Train the model on OTSL-structured questions and answers.
+### Evaluation Metrics
 You can run evaluation using various scripts provided:
 ```bash
 # Standard metrics
@@ -49,15 +72,15 @@ python src/model/llama8bfintabnetaccuracy.py
 python src/model/llama8bplaintextaccuracy.py
 python src/model/llama8bmarkdownaccuracy.py
 python src/model/llama8bhtmlaccuracy.py
-
-##Metric Details
+```
+### Metric Details
 | Metric                            | Description                                                                                                                                  |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Exact Match (EM)**              | Checks for exact string equality between prediction and ground truth (case- and whitespace-insensitive).                                     |
 | **Levenshtein Accuracy**          | Measures how many edits are needed to convert predicted answer to ground truth. Normalized as:<br> `1 - (Levenshtein Distance / Max Length)` |
 | **Relieved Accuracy (FinTabNet)** | Allows for formatting and minor textual variations but penalizes incorrect content. Useful for evaluating table-based answers.               |
 ---
-##🧾 Prediction Output Format
+### 🧾 Prediction Output Format
 After evaluation, predictions are saved as JSON files like predictions.json.
 Each entry looks like:
 ```bash
@@ -67,6 +90,6 @@ Each entry looks like:
   "predicted_answer": "3.65%",
   "ground_truth": "3.65%"
 }
-
+```
 
 
