@@ -1,0 +1,11 @@
+einops
+Pillow
+torch
+torchvision
+transformers
+sentencepiece
+protobuf
+GPUtil
+Levenshtein
+accelerate
+peft
